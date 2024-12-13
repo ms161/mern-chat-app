@@ -1,5 +1,8 @@
 export default class ApiEndPoints{
-  public static baseUrl= 'http://localhost:5000'
-  public static readonly SIGNUP = { api: () => `${this.baseUrl}/live-talk/api/v1/users/signup` }
-  public static readonly LOGIN = { api: () => `${this.baseUrl}/live-talk/api/v1/users/login` }
+ 
+  public static readonly SIGNUP = { api: () => `/live-talk/api/v1/users/signup` }
+  public static readonly LOGIN = { api: () => `/live-talk/api/v1/users/login` }
+  public static readonly GET_ALL_USERS = { api: () => `/live-talk/api/v1/users` }
+  public static readonly GET_ONE_TO_ONE_CHAT = { api: (recieverId:string) => `/live-talk/api/v1/chat/get-one-to-one-chat/${recieverId}` }
+  public static readonly SEND_CHAT = { api: (recieverId:string) => `/live-talk/api/v1/chat/create-chat/${recieverId}` }
 }

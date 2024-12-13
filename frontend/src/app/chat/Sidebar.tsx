@@ -1,8 +1,40 @@
 'use client'
-const Sidebar = () => {
-  
+
+import axiosInstance from "@/services/axiosService"
+import ApiEndPoints from "@/utils/apiEndpoints"
+import { useEffect, useState } from "react"
+
+interface AllUser {
+  _id: string,
+  username: string
+}
+
+const Sidebar = ({ getRecieverId }) => {
+  const [ allUser, setAllUsers ] = useState<Array<AllUser>>([])
+  const [ selectedChat, setSelectedChat ] = useState<string>('')
+  console.log(selectedChat)
+  const getAllUsers = async () => {
+    const users = await axiosInstance.get(ApiEndPoints.GET_ALL_USERS.api());
+    setAllUsers(users.data.users)
+   
+    console.log(users)
+  }
+
+  useEffect(() => {
+    getAllUsers()
+  }, [])
+
   return (
-    <div className="w-80 shadow-lg h-[100vh] border border-black">Sidebar</div>
+    <div className=" shadow-2xl rounded-lg h-[calc(100vh-100px)] p-2 bg-white  max-h-[100vh]">
+      {
+        allUser.map((el) => {
+          console.log(el._id===selectedChat,el._id,selectedChat)
+          return <p onClick={() => { getRecieverId(el._id); setSelectedChat(el._id) }} className={`rounded-lg mt-2 p-2 cursor-pointer uppercase ${el._id === selectedChat ? 'bg-blue-600' : 'bg-gray-200 '}`} key={el._id}>
+            {el.username}
+          </p>
+        })
+      }
+    </div>
   )
 }
 export default Sidebar

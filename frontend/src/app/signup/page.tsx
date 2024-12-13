@@ -3,9 +3,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import ApiEndPoints from '@/utils/apiEndpoints';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Toaster from '@/utils/toaster';
+import axiosInstance from '@/services/axiosService';
 
 
 interface SignUpDataProps {
@@ -37,7 +37,7 @@ const SignUp = () => {
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault()
-      const res = await axios.post(ApiEndPoints.SIGNUP.api(), signUpData);
+      const res = await axiosInstance.post(ApiEndPoints.SIGNUP.api(), signUpData);
       setOpen(true)
 
       setTimeout(() => {

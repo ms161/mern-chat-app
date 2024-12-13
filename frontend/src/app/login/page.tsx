@@ -3,8 +3,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
-import axios from 'axios';
 import ApiEndPoints from '@/utils/apiEndpoints';
+import axiosInstance from '@/services/axiosService';
 
 interface loginDataProps {
   email: string,
@@ -23,10 +23,14 @@ const Login = () => {
   const handleLogin=async(e:React.FormEvent<HTMLFormElement>)=>{
     try {
       e.preventDefault()
-      const res = await axios.post(ApiEndPoints.LOGIN.api(), loginData);
-      localStorage.setItem('token',res.data.token)
+      const resp = await axiosInstance.post(ApiEndPoints.LOGIN.api(), loginData);
+      localStorage.setItem('token',resp.data.token)
+      localStorage.setItem('id',resp.data._id)
+      localStorage.setItem('username',resp.data.user.username)
+      localStorage.setItem('_id',resp.data.user._id)
+      
       route.push('/chat')
-      console.log(res)
+      console.log(resp.data)
     } catch (error) {
       console.log(error)
     }
