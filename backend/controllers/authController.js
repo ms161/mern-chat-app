@@ -44,12 +44,12 @@ exports.login = async (req, res, next) => {
     }
     res.status(200).json({
       status: "success",
-      token,
       data: {
+      token,
         user: userObj,
       },
     });
-    console.log(user);
+  
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -60,7 +60,7 @@ exports.login = async (req, res, next) => {
 };
 
 exports.protect = async (req, res, next) => {
-  console.log(req.headers.authorization);
+
   let token;
   if (
     req.headers.authorization &&
@@ -74,7 +74,6 @@ exports.protect = async (req, res, next) => {
 
   //validate the token
   const decoded = await jwt.decode(token, process.env.JWT_SECRET);
-  console.log(decoded);
   const currentUser = await User.findOne({ email: decoded.email });
   if (!currentUser) {
     return next(

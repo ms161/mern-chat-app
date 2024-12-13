@@ -4,13 +4,13 @@ exports.saveChat = async (req, res, next) => {
   try {
     const { recieverId } = req.params;
     const { message } = req.body;
-    console.log(recieverId, message, req.user._id);
+  
     const chat = await Chat.create({
       message,
       reciever: recieverId,
       sender: req.user._id,
     });
-    console.log(chat);
+   
     res.status(200).json({
       status: "success",
       data: {
@@ -32,7 +32,7 @@ exports.getOneToOneChat = async (req, res, next) => {
     const chats = await Chat.find({
       $or: [
         { sender: req.user._id, reciever: sentToId },
-        { sender: sentToId, reciever: req.user._id },
+        // { sender: sentToId, reciever: req.user._id },
       ],
     })
       .populate({ path: "sender reciever", select: "username" })
