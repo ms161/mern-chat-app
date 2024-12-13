@@ -2,13 +2,20 @@ const mongoose = require("mongoose");
 const groupSchema = new mongoose.Schema({
   groupName: {
     type: String,
-    required: [true, "Message cant be empty"],
+    required: [true, "Required Group Name."],
   },
+  
   members: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
+   {
+    userDetails:{
+      type:mongoose.Schema.ObjectId,
+      ref:"User"
     },
+    isAdmin:{
+      type:Boolean,
+      default:false,
+    }
+   }
   ],
   createdAt: {
     type: Date,
@@ -16,5 +23,5 @@ const groupSchema = new mongoose.Schema({
   },
 });
 
-const group = mongoose.model("Chat", groupSchema);
-module.exports = group;
+const Group = mongoose.model("Group", groupSchema);
+module.exports = Group;

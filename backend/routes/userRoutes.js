@@ -9,4 +9,5 @@ router.route('/login').post(authController.login)
 
 router.route('/').get(authController.protect,userController.getAllUsers)
 
+
 module.exports=router

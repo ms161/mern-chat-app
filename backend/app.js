@@ -2,8 +2,10 @@ const express=require('express')
 const app=express()
 const userRoutes=require('./routes/userRoutes')
 const chatRoutes=require('./routes/chatRoutes')
+const groupRoutes=require('./routes/groupRoutes')
 const cors=require('cors')
 const AppError=require('./utils/appError')
+
 app.use(cors())
 
 // body parser, reading data from body into req.body
@@ -13,6 +15,7 @@ console.log('app')
 const baseUrl='/live-talk/api/v1'
 app.use(`${baseUrl}/users`,userRoutes)
 app.use(`${baseUrl}/chat`,chatRoutes)
+app.use(`${baseUrl}/group`,groupRoutes)
 
 
 //handlign unhandled routes
