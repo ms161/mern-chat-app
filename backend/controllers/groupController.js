@@ -50,12 +50,11 @@ exports.getMyGroups = async (req, res, next) => {
     const myGroups = await Group.find({
       "members.userDetails": req.user._id,
     }).populate({ path: "members.userDetails", select: "username" });
-    
-    res.status(200).json({
 
+    res.status(200).json({
       status: "success",
-      length:myGroups.length,
-      myGroups,
+      length: myGroups.length,
+      data:myGroups,
     });
 
     console.log(myGroups);
@@ -70,13 +69,13 @@ exports.addMemberToGroup = async (req, res, next) => {
     }
     const updatedGroup = await Group.findByIdAndUpdate(
       groupId,
-      { $addToSet: { members: {userDetails:userId,isAdmin:false} } },
+      { $addToSet: { members: { userDetails: userId, isAdmin: false } } },
       { new: true }
     ).populate({ path: "members.userDetails", select: "username" });
 
     res.status(200).json({
       status: "success",
-      
+
       updatedGroup,
     });
     console.log(updatedGroup);
@@ -88,4 +87,3 @@ exports.addMemberToGroup = async (req, res, next) => {
     });
   }
 };
-

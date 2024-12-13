@@ -16,15 +16,18 @@ interface Chat {
   createdAt: string; // ISO Date string
 }
 
+interface RecieverDetails{
+  id:string,
+  username:string
+}
 
-
-const MessageBox = ({ recieverId }: { recieverId: string }) => {
+const MessageBox = ({ recieverDetails }: { recieverDetails: RecieverDetails }) => {
   const [ messages, setMessages ] = useState<Array<Chat>>([])
   const [ sendMessage, setSendMessage ] = useState<string>('')
 
 
   const getOneToOneChat = async () => {
-    const res = await axiosInstance.get(ApiEndPoints.GET_ONE_TO_ONE_CHAT.api(recieverId))
+    const res = await axiosInstance.get(ApiEndPoints.GET_ONE_TO_ONE_CHAT.api(recieverDetails.id))
 
     setMessages(res.data.chats)
 
@@ -33,7 +36,7 @@ const MessageBox = ({ recieverId }: { recieverId: string }) => {
   const sendChat = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSendMessage('')
-    const res = await axiosInstance.post(ApiEndPoints.SEND_CHAT.api(recieverId), { message: sendMessage })
+    const res = await axiosInstance.post(ApiEndPoints.SEND_CHAT.api(recieverDetails.id), { message: sendMessage })
     console.log(res)
   }
   const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,20 +45,21 @@ const MessageBox = ({ recieverId }: { recieverId: string }) => {
 
 
   useEffect(() => {
-    if (recieverId)
+    if (recieverDetails.id)
       getOneToOneChat()
 
-  }, [ recieverId ])
+  }, [ recieverDetails.id ])
 
   console.log(messages)
 
 
 
   return (
-    <div className="h-[calc(100vh-100px)]  rounded-lg bg-white">
+    <div className="h-[calc(100vh-100px)]  rounded-2xl bg-white">
       <div className=" rounded-2xl p-3 shadow-2xl h-full bg-white flex">
-        {recieverId ? <div className="flex flex-col justify-between bg-white h-full w-full" >
-          <div className="max-h-[calc(100vh-160px)]  overflow-y-scroll">
+      <p></p>
+        {recieverDetails.id ? <div className="flex flex-col justify-between bg-white h-full w-full" >
+          <div className="max-h-[calc(100vh-160px)]  overflow-y-auto ">
             {
               messages.map((el) => (
                 <p key={el._id} className={`p-1 bg-green-300 mt-1 w-max rounded-xl px-4 ${el.sender.username == localStorage.getItem('username') ? 'ml-auto' : ''}`}>

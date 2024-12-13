@@ -55,7 +55,7 @@ const SignUp = () => {
 
   return (
     <div className='flex justify-center items-center  m-auto h-[100vh] ' >
-      <div className='shadow-2xl p-10 py-16  rounded-md'>
+      <div className='shadow-2xl p-10 py-16  rounded-2xl bg-white'>
         <form action="" onSubmit={handleSignUp}>
           <div className=''>
             <TextField required name='username' onChange={handleSignUpData} size='small' className='w-80' id="outlined-basic-username" label="username" variant="outlined" />

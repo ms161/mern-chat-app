@@ -6,9 +6,9 @@ const Header = () => {
     route.push('/login')
   }
   return (
-    <div className="bg-gray-500 p-4 rounded-b-xl uppercase flex items-center justify-between">
+    <div className="bg-purple-600 p-4 rounded-b-xl uppercase flex items-center justify-between">
 
-      <div >
+      <div className="text-white font-semibold">
         {localStorage.getItem('username')}
       </div>
       <Button variant="contained" onClick={handleLogout}>Logout</Button>

@@ -40,7 +40,7 @@ const Login = () => {
 
   return (
     <div className='flex justify-center items-center m-auto h-[100vh] ' >
-      <div className='shadow-2xl p-10 py-24 rounded-md h-max'>
+      <div className='shadow-2xl p-10 py-24 rounded-2xl h-max bg-white'>
 <form action="" onSubmit={handleLogin}>        <div className=''>
           <TextField required name='email' type='email' onChange={handleLoginData} size='small' className='w-80' id="outlined-basic-email" label="Email" variant="outlined" />
         </div>
@@ -52,7 +52,7 @@ const Login = () => {
           <Button type='submit' className='w-80' variant="contained">Log In</Button>
         </div>
         <div className='mt-4'>
-          <Button  onClick={() => route.push('/signup')} className='w-80' variant="contained">Dont have an Account?Sign Up</Button>
+          <Button  onClick={() => route.push('/signup')} className='w-80' variant="contained">Dont have an Account? Sign Up</Button>
         </div>
         </form>
 
