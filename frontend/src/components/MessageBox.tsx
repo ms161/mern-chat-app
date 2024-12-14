@@ -27,16 +27,14 @@ const MessageBox = ({ recieverDetails }: { recieverDetails: RecieverDetails }) =
 
 
   const getOneToOneChat = async () => {
-    const res = await axiosInstance.get(ApiEndPoints.GET_ONE_TO_ONE_CHAT.api(recieverDetails.id))
-
+    const res = await axiosInstance.post(ApiEndPoints.GET_ONE_TO_ONE_CHAT.api(),{sentToIds:recieverDetails.id})
     setMessages(res.data.chats)
-
   }
 
   const sendChat = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSendMessage('')
-    const res = await axiosInstance.post(ApiEndPoints.SEND_CHAT.api(recieverDetails.id), { message: sendMessage })
+    const res = await axiosInstance.post(ApiEndPoints.SEND_CHAT.api(), { message: sendMessage,recieversId:recieverDetails.id,isGroupChat:false })
     console.log(res)
   }
   const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {

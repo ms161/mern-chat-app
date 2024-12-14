@@ -1,16 +1,25 @@
 const Chat = require("../models/chatModel");
+const AppError = require("../utils/appError");
 
 exports.saveChat = async (req, res, next) => {
   try {
-    const { recieverId } = req.params;
-    const { message } = req.body;
-  
+    // const { recieverId } = req.params;
+    const { message, recieversId, isGroupChat } = req.body;
+    console.log(req.body);
+    if (!message || !recieversId || isGroupChat === undefined)
+      return next(
+        new AppError(
+          "Message, recieversId and isGroupChat can not be empty.",
+          400
+        )
+      );
     const chat = await Chat.create({
+      isGroupChat,
       message,
-      reciever: recieverId,
+      recievers: recieversId,
       sender: req.user._id,
     });
-   
+
     res.status(200).json({
       status: "success",
       data: {
@@ -26,18 +35,27 @@ exports.saveChat = async (req, res, next) => {
   }
 };
 
-exports.getOneToOneChat = async (req, res, next) => {
+exports.getChats = async (req, res, next) => {
   try {
-    const { sentToId } = req.params;
+    if (!req.isGroupChat) req.isGroupChat = false;
+    const { sentToIds } = req.body;
     const chats = await Chat.find({
       $or: [
-        { sender: req.user._id, reciever: sentToId },
-        // { sender: sentToId, reciever: req.user._id },
+        {
+          sender: req.user._id,
+          recievers: sentToIds,
+          isGroupChat: req.isGroupChat,
+        },
+        {
+          sender: sentToIds,
+          recievers: req.user._id,
+          isGroupChat: req.isGroupChat,
+        },
       ],
     })
-      .populate({ path: "sender reciever", select: "username" })
+      .populate({ path: "sender recievers", select: "username" })
       .sort({ createdAt: 1 });
- 
+
     res.status(200).json({
       status: "success",
       data: {
@@ -51,4 +69,8 @@ exports.getOneToOneChat = async (req, res, next) => {
       error,
     });
   }
+};
+
+exports.convertToGroupChat = async (req, res, next) => {
+  req.isGroupChat = true;
 };

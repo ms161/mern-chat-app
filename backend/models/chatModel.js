@@ -5,12 +5,16 @@ const chatSchema = new mongoose.Schema({
     type: String,
     required: [true, "Message cant be empty"],
   },
+  isGroupChat: {
+    type: Boolean,
+    required: true,
+  },
   sender: {
     type: mongoose.Schema.ObjectId,
     required: [true, "Sender cant be empty"],
     ref: "User",
   },
-  reciever: [
+  recievers: [
     {
       type: mongoose.Schema.ObjectId,
       required: [true, "Reciever cant be empty"],
